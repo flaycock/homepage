@@ -1,4 +1,4 @@
-import { Heading, Text, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
+import { Heading, Text, Tabs, TabList, TabPanels, Tab, TabPanel } from '../node_modules/@chakra-ui/react';
 import Home from './Home';
 import CV from './CV';
 import Projects from './Projects';
