@@ -20,7 +20,7 @@ const Experience = () => {
         roles I have taken up and a brief description of what I was doing in
         each:
       </Text>
-      <Accordion pt={10}>
+      <Accordion allowToggle pt={10}>
         <AccordionItem>
           <h2>
             <AccordionButton _hover={{ color: "gray.900", bg: "green.200" }}>
