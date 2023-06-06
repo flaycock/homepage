@@ -1,7 +1,8 @@
 import { Heading, Text, Tabs, TabList, TabPanels, Tab, TabPanel } from '../node_modules/@chakra-ui/react';
-import Home from './Home';
-import CV from './CV';
+import AboutMe from './AboutMe';
+import Experience from './Experience';
 import Projects from './Projects';
+import Contact from './Contact';
 import './App.css';
 
 const App = () => {
@@ -14,14 +15,14 @@ const App = () => {
             _hover={{ color: 'gray.900', bg: 'green.200' }}
             _selected={{ color: 'white', bg: 'green.400' }}  
           >
-            Home
+            About Me
           </Tab>
           <Tab
             m='5px'
             _hover={{ color: 'gray.900', bg: 'green.200' }}
             _selected={{ color: 'white', bg: 'green.400' }}
           >
-            CV
+            Experience
           </Tab>
           <Tab
             m='5px'
@@ -30,16 +31,26 @@ const App = () => {
           >
             Projects
           </Tab>
+          <Tab
+            m='5px'
+            _hover={{ color: 'gray.900', bg: 'green.200' }}
+            _selected={{ color: 'white', bg: 'green.400' }}
+          >
+            Contact
+          </Tab>
         </TabList>
         <TabPanels>
           <TabPanel>      
-            <Home />
+            <AboutMe />
           </TabPanel>
           <TabPanel>
-            <CV />
+            <Experience />
           </TabPanel>
           <TabPanel>
             <Projects />
+          </TabPanel>
+          <TabPanel>
+            <Contact />
           </TabPanel>
         </TabPanels>
       </Tabs>
