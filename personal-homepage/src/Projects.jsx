@@ -1,4 +1,4 @@
-import { Heading, Text } from '@chakra-ui/react';
+import { Heading, Text } from '../node_modules/@chakra-ui/react';
 
 const Projects = () => {
     return (
