@@ -5,10 +5,10 @@ import {
   Tab,
   TabPanel,
 } from "../node_modules/@chakra-ui/react";
-import AboutMe from "./AboutMe";
-import Experience from "./Experience";
-import Projects from "./Projects";
-import Contact from "./Contact";
+import AboutMe from "./components/AboutMe";
+import Experience from "./components/Experience";
+import Projects from "./components/Projects";
+import Contact from "./components/Contact";
 import "./App.css";
 
 const App = () => {
@@ -17,6 +17,7 @@ const App = () => {
       <Tabs p="10px" align="end" variant="soft-rounded">
         <TabList>
           <Tab
+            className="aboutMeTab"
             m="5px"
             _hover={{ color: "gray.900", bg: "green.200" }}
             _selected={{ color: "white", bg: "green.400" }}
@@ -24,6 +25,7 @@ const App = () => {
             About Me
           </Tab>
           <Tab
+            className="experienceTab"
             m="5px"
             _hover={{ color: "gray.900", bg: "green.200" }}
             _selected={{ color: "white", bg: "green.400" }}
@@ -31,6 +33,7 @@ const App = () => {
             Experience
           </Tab>
           <Tab
+            className="projectsTab"
             m="5px"
             _hover={{ color: "gray.900", bg: "green.200" }}
             _selected={{ color: "white", bg: "green.400" }}
@@ -38,6 +41,7 @@ const App = () => {
             Projects
           </Tab>
           <Tab
+            className="contactTab"
             m="5px"
             _hover={{ color: "gray.900", bg: "green.200" }}
             _selected={{ color: "white", bg: "green.400" }}

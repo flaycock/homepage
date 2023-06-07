@@ -7,12 +7,12 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-} from "../node_modules/@chakra-ui/react";
+} from "../../node_modules/@chakra-ui/react";
 
 const Experience = () => {
   return (
     <>
-      <Heading pb={30} size="2xl">
+      <Heading className="experienceHeading" pb={30} size="2xl">
         Experience
       </Heading>
       <Text>
@@ -41,17 +41,27 @@ const Experience = () => {
             maintaining eCommerce and implementing new features. Types of work I
             participate in include:
             <br />
-            <br />- Maintaining the existing codebase, integrating new features
-            and fixing defects
-            <br />- Testing new ideas and potential features using AB tests and
-            Adobe Target to measure performance and interactivity
-            <br />- Support the creation and set up of the new, headless
-            architecture using React and GraphQL
-            <br />- Create and expand an in-house bespoke Desk Booking
-            application, created entirely by the front-end developers for use in
-            the new office utilising React and NodeJs. This is in the process of
-            being expanded to other offices around the world
             <br />
+            <ul>
+              <li>
+                Maintaining the existing codebase, integrating new features and
+                fixing defects
+              </li>
+              <li>
+                Testing new ideas and potential features using AB tests and
+                Adobe Target to measure performance and interactivity
+              </li>
+              <li>
+                Support the creation and set up of the new, headless
+                architecture using React and GraphQL
+              </li>
+              <li>
+                Create and expand an in-house bespoke Desk Booking application,
+                created entirely by the front-end developers for use in the new
+                office utilising React and NodeJs. This is in the process of
+                being expanded to other offices around the world
+              </li>
+            </ul>
             <br />
             An example of something I took the lead on design and implementation
             was a currency converter for our export site. This site in
@@ -77,17 +87,22 @@ const Experience = () => {
             areas, including:
             <br />
             <br />
-            -Creating bespoke applications using technologies such as React to
-            suit the clients&apos; needs
-            <br />
-            -Building geospatial systems from the ground up, processing large
-            quantities of data in an easy-to-read format and allowing
-            manipulation for business purposes
-            <br />
-            -Analysing different methodologies to create the best-suited system
-            for the client, including, for example, different data transfer
-            protocols, and containerisation/orchestration tooling
-            <br />
+            <ul>
+              <li>
+                Creating bespoke applications using technologies such as React
+                to suit the clients&apos; needs
+              </li>
+              <li>
+                Building geospatial systems from the ground up, processing large
+                quantities of data in an easy-to-read format and allowing
+                manipulation for business purposes
+              </li>
+              <li>
+                Analysing different methodologies to create the best-suited
+                system for the client, including, for example, different data
+                transfer protocols, and containerisation/orchestration tooling
+              </li>
+            </ul>
             <br />
             An example of a project I took charge on was creating a web
             application using React that could be deployed to a closed, isolated
@@ -116,16 +131,21 @@ const Experience = () => {
             were:
             <br />
             <br />
-            -Listening to the customer and providing solutions based on business
-            requirements
-            <br />
-            -Implementing these solutions into the PPB system, ranging from
-            database improvements, new backend features and front-end
-            streamlining
-            <br />
-            -Helping to test and deploy these code changes to PPB systems and
-            supporting the client through this whole process
-            <br />
+            <ul>
+              <li>
+                Listening to the customer and providing solutions based on
+                business requirements
+              </li>
+              <li>
+                Implementing these solutions into the PPB system, ranging from
+                database improvements, new backend features and front-end
+                streamlining
+              </li>
+              <li>
+                Helping to test and deploy these code changes to PPB systems and
+                supporting the client through this whole process
+              </li>
+            </ul>
             <br />
             An example of a project I spear-headed was creating an automatic
             application details board to display version information, past and
