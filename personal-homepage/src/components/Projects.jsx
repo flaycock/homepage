@@ -7,12 +7,12 @@ import {
   CardBody,
   CardFooter,
   Button,
-} from "../node_modules/@chakra-ui/react";
+} from "../../node_modules/@chakra-ui/react";
 
 const Projects = () => {
   return (
     <>
-      <Heading pb={30} size="2xl">
+      <Heading className="projectsHeading" pb={30} size="2xl">
         Projects
       </Heading>
       <Text>
@@ -25,7 +25,7 @@ const Projects = () => {
             <Heading size="md">Cat Petter</Heading>
           </CardHeader>
           <CardBody>
-            <Text>
+            <Text textAlign="left">
               A simple mouse-clicking game inspired by the popuplar Cookie
               Clicker. Pet the cat by clicking on it to gain pets, then spend
               those points on power-ups to gain more pets!
@@ -40,7 +40,7 @@ const Projects = () => {
             <Heading size="md">Wumble</Heading>
           </CardHeader>
           <CardBody>
-            <Text>
+            <Text textAlign="left">
               A simple word-guessing game inspired by the popular Wordle. Guess
               the 5-letter word using clues about correct letters and positions
               to test your literary skill!
@@ -55,7 +55,7 @@ const Projects = () => {
             <Heading size="md">Infectious Disease Model</Heading>
           </CardHeader>
           <CardBody>
-            <Text>
+            <Text textAlign="left">
               A simple, spatial, visial model of an infectious disease and how
               it can spread through a population over time. Change the
               parameters of the model, such as infection rate, population and

@@ -1,9 +1,9 @@
-import { Heading, Text, Link } from "../node_modules/@chakra-ui/react";
+import { Heading, Text, Link } from "../../node_modules/@chakra-ui/react";
 
 const Contact = () => {
   return (
     <>
-      <Heading pb={30} size="2xl">
+      <Heading className="contactHeading" pb={30} size="2xl">
         Contact
       </Heading>
       <Text>
@@ -12,6 +12,7 @@ const Contact = () => {
         <br />
         Email:&nbsp;
         <Link
+          className="email"
           _hover={{
             color: "gray.900",
             bg: "green.200",
@@ -26,6 +27,7 @@ const Contact = () => {
         <br />
         <br /> Alternatively, check out my&nbsp;
         <Link
+          className="linkedIn"
           _hover={{
             color: "gray.900",
             bg: "green.200",
@@ -39,6 +41,7 @@ const Contact = () => {
         </Link>
         &nbsp;or my&nbsp;
         <Link
+          className="github"
           _hover={{
             color: "gray.900",
             bg: "green.200",
