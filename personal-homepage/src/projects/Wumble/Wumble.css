@@ -4,9 +4,9 @@ div#wumbleGame {
   text-align: center;
   margin: auto;
   width: 20%;
-  padding-top: 25%;
+  padding-top: 15%;
 }
-h1 {
+h2 {
   color: purple;
 }
 .guess {

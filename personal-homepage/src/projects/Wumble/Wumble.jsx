@@ -1,4 +1,6 @@
 import { useState, useRef } from "react";
+import { Heading, Text } from "@chakra-ui/layout";
+import { Button } from "@chakra-ui/button";
 import "./Wumble.css";
 import words from "./data/Words.js";
 
@@ -85,7 +87,7 @@ const Wumble = () => {
 
   return (
     <div id="wumbleGame">
-      <h1>Wumble!</h1>
+      <Heading>Wumble!</Heading>
       <input
         autoFocus
         disabled={inputDisabled}
@@ -96,18 +98,24 @@ const Wumble = () => {
         onChange={(e) => handleInput(e.target.value)}
         value={input}
       />
-      <div id="msg">{msg}</div>
+      <Text id="msg">{msg}</Text>
       {!success && !failure && (
-        <button id="inputCheck" onClick={() => checkInput(input)}>
+        <Button
+          bg="green.200"
+          color="gray.900"
+          _hover={{ color: "white", bg: "green.400" }}
+          id="inputCheck"
+          onClick={() => checkInput(input)}
+        >
           Check Answer
-        </button>
+        </Button>
       )}
       {attempts > 0 && !failure && success ? (
-        <div id="attempts">
+        <Text id="attempts">
           You took {attempts} attempt(s) to guess the word
-        </div>
+        </Text>
       ) : (
-        <div id="attempts">You have had {attempts} attempt(s)</div>
+        <Text id="attempts">You have had {attempts} attempt(s)</Text>
       )}
     </div>
   );

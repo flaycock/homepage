@@ -16,7 +16,12 @@ const Projects = () => {
   return (
     <>
       {project === "Wumble" ? (
-        <Wumble />
+        <>
+          <Wumble />
+          <Button mt={20} onClick={() => setProject("")}>
+            Back to Projects
+          </Button>
+        </>
       ) : (
         <>
           <Heading className="projectsHeading" pb={30} size="2xl">
@@ -39,7 +44,9 @@ const Projects = () => {
                 </Text>
               </CardBody>
               <CardFooter>
-                <Button onClick={() => setProject("CatPetter")}>Click here to Play!</Button>
+                <Button onClick={() => setProject("CatPetter")}>
+                  Click here to Play!
+                </Button>
               </CardFooter>
             </Card>
             <Card textAlign="center" alignItems="center" bg="orange.200">
@@ -73,7 +80,9 @@ const Projects = () => {
                 </Text>
               </CardBody>
               <CardFooter>
-                <Button onClick={() => setProject("InfectiousDiseaseModel")}>Click here to Play!</Button>
+                <Button onClick={() => setProject("InfectiousDiseaseModel")}>
+                  Click here to Play!
+                </Button>
               </CardFooter>
             </Card>
           </SimpleGrid>
