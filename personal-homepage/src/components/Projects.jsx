@@ -7,6 +7,7 @@ import {
   CardBody,
   CardFooter,
   Button,
+  Link,
 } from "../../node_modules/@chakra-ui/react";
 
 const Projects = () => {
@@ -42,12 +43,14 @@ const Projects = () => {
           <CardBody>
             <Text textAlign="left">
               A simple word-guessing game inspired by the popular Wordle. Guess
-              the 5-letter word using clues about correct letters and positions
+              the 4-letter word using clues about correct letters and positions
               to test your literary skill!
             </Text>
           </CardBody>
           <CardFooter>
-            <Button>Click here to Play!</Button>
+            <Button>
+              <Link href="/wumble">Click here to Play!</Link>
+            </Button>
           </CardFooter>
         </Card>
         <Card textAlign="center" alignItems="center" bg="orange.200">

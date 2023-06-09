@@ -12,6 +12,9 @@ import Contact from "./components/Contact";
 import "./App.css";
 
 const App = () => {
+  // Something to investigate; set default tab to open at certain index
+  // so when returning from a Project I am returned to Projects tab instead
+  // of the About Me tab
   return (
     <>
       <Tabs p="10px" align="end" variant="soft-rounded">
