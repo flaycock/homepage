@@ -10,6 +10,7 @@ import {
 } from "../../node_modules/@chakra-ui/react";
 import { useState } from "react";
 import Wumble from "../projects/Wumble/Wumble";
+import Idm from "../projects/Idm/Idm";
 
 const Projects = () => {
   const [project, setProject] = useState("");
@@ -18,6 +19,13 @@ const Projects = () => {
       {project === "Wumble" ? (
         <>
           <Wumble />
+          <Button mt={20} onClick={() => setProject("")}>
+            Back to Projects
+          </Button>
+        </>
+      ) : project === "Idm" ? (
+        <>
+          <Idm />
           <Button mt={20} onClick={() => setProject("")}>
             Back to Projects
           </Button>
@@ -80,7 +88,7 @@ const Projects = () => {
                 </Text>
               </CardBody>
               <CardFooter>
-                <Button onClick={() => setProject("InfectiousDiseaseModel")}>
+                <Button onClick={() => setProject("Idm")}>
                   Click here to Play!
                 </Button>
               </CardFooter>
