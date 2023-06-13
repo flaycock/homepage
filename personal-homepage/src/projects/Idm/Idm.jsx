@@ -6,7 +6,7 @@ import {
   FormControl,
   Button,
   FormLabel,
-} from "@chakra-ui/react";
+} from "../../../node_modules/@chakra-ui/react";
 import {
   Chart as ChartJS,
   LinearScale,
@@ -221,7 +221,7 @@ const Idm = () => {
                 },
               },
               animation: {
-                duration: 1,
+                duration: 0,
               },
               hover: { mode: null },
             }}

@@ -1,6 +1,5 @@
 import { useState, useRef } from "react";
-import { Heading, Text } from "@chakra-ui/layout";
-import { Button } from "@chakra-ui/button";
+import { Heading, Text, Button } from "../../../node_modules/@chakra-ui/react";
 import "./Wumble.css";
 import words from "./data/Words.js";
 

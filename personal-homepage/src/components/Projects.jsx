@@ -26,7 +26,7 @@ const Projects = () => {
       ) : project === "Idm" ? (
         <>
           <Idm />
-          <Button mt={20} onClick={() => setProject("")}>
+          <Button mt={10} onClick={() => setProject("")}>
             Back to Projects
           </Button>
         </>
@@ -53,7 +53,7 @@ const Projects = () => {
               </CardBody>
               <CardFooter>
                 <Button onClick={() => setProject("CatPetter")}>
-                  Click here to Play!
+                  Coming Soon!
                 </Button>
               </CardFooter>
             </Card>
