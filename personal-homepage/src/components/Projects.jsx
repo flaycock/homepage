@@ -19,7 +19,7 @@ const Projects = () => {
       {project === "Wumble" ? (
         <>
           <Wumble />
-          <Button mt={20} onClick={() => setProject("")}>
+          <Button mt={10} onClick={() => setProject("")}>
             Back to Projects
           </Button>
         </>
