@@ -127,7 +127,7 @@ const Idm = () => {
 
   return (
     <div id="IDM">
-      <Heading mt="40px" mb="30px">
+      <Heading mt="20px" mb="30px">
         Infectious Disease Model
       </Heading>
       {!load ? (
