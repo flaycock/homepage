@@ -11,25 +11,30 @@ import {
 import { useState } from "react";
 import Wumble from "../projects/Wumble/Wumble";
 import Idm from "../projects/Idm/Idm";
+import CatPetter from "../projects/CatPetter/CatPetter";
 
 const Projects = () => {
   const [project, setProject] = useState("");
+
+  const loadProject = (project) => {
+    return (
+      <>
+        {
+          { Wumble: <Wumble />, Idm: <Idm />, CatPetter: <CatPetter /> }[
+            project
+          ]
+        }
+        <Button mt={10} onClick={() => setProject("")}>
+          Back to Projects
+        </Button>
+      </>
+    );
+  };
+
   return (
     <>
-      {project === "Wumble" ? (
-        <>
-          <Wumble />
-          <Button mt={10} onClick={() => setProject("")}>
-            Back to Projects
-          </Button>
-        </>
-      ) : project === "Idm" ? (
-        <>
-          <Idm />
-          <Button mt={10} onClick={() => setProject("")}>
-            Back to Projects
-          </Button>
-        </>
+      {project != "" ? (
+        loadProject(project)
       ) : (
         <>
           <Heading className="projectsHeading" pb={30} size="2xl">
@@ -59,7 +64,7 @@ const Projects = () => {
               </CardBody>
               <CardFooter>
                 <Button onClick={() => setProject("CatPetter")}>
-                  Coming Soon!
+                  Pet Some Cats
                 </Button>
               </CardFooter>
             </Card>
@@ -82,7 +87,7 @@ const Projects = () => {
               </CardBody>
               <CardFooter>
                 <Button onClick={() => setProject("Wumble")}>
-                  Click here to Play!
+                  Guess Some Words
                 </Button>
               </CardFooter>
             </Card>
@@ -107,7 +112,7 @@ const Projects = () => {
               </CardBody>
               <CardFooter>
                 <Button onClick={() => setProject("Idm")}>
-                  Click here to Play!
+                  Infect Some People
                 </Button>
               </CardFooter>
             </Card>
