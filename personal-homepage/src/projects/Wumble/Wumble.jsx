@@ -87,6 +87,10 @@ const Wumble = () => {
   return (
     <div id="wumbleGame">
       <Heading>Wumble!</Heading>
+      <Text m="10px">
+        Guess the random 4-letter word. After each attempt, correct letters
+        and/or positions will be revealed.
+      </Text>
       <input
         autoFocus
         disabled={inputDisabled}

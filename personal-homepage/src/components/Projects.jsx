@@ -40,7 +40,13 @@ const Projects = () => {
             like to share, along with the GitHub links to the source code.
           </Text>
           <SimpleGrid pt={30} columns={3} spacing={10}>
-            <Card textAlign="center" alignItems="center" bg="orange.200">
+            <Card
+              textAlign="center"
+              alignItems="center"
+              bg="orange.200"
+              opacity={0.8}
+              boxShadow="lg"
+            >
               <CardHeader>
                 <Heading size="md">Cat Petter</Heading>
               </CardHeader>
@@ -57,7 +63,13 @@ const Projects = () => {
                 </Button>
               </CardFooter>
             </Card>
-            <Card textAlign="center" alignItems="center" bg="orange.200">
+            <Card
+              textAlign="center"
+              alignItems="center"
+              bg="orange.200"
+              opacity={0.8}
+              boxShadow="lg"
+            >
               <CardHeader>
                 <Heading size="md">Wumble</Heading>
               </CardHeader>
@@ -74,7 +86,13 @@ const Projects = () => {
                 </Button>
               </CardFooter>
             </Card>
-            <Card textAlign="center" alignItems="center" bg="orange.200">
+            <Card
+              textAlign="center"
+              alignItems="center"
+              bg="orange.200"
+              opacity={0.8}
+              boxShadow="lg"
+            >
               <CardHeader>
                 <Heading size="md">Infectious Disease Model</Heading>
               </CardHeader>

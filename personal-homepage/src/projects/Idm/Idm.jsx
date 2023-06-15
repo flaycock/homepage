@@ -174,7 +174,7 @@ const Idm = () => {
               isRequired
               width="40%"
               size="md"
-              placeholder="Chance of an infected infecting someone else, [0, 1]"
+              placeholder="Chance of an infected infecting someone else"
               onChange={(event) =>
                 setInfProb(parseFloat(event.currentTarget.value))
               }
@@ -198,13 +198,20 @@ const Idm = () => {
               isRequired
               width="40%"
               size="md"
-              placeholder="Time between each step of the model, in seconds"
+              placeholder="Time (s) between each step of the model"
               onChange={(event) =>
                 setTimeInterval(parseFloat(event.currentTarget.value))
               }
             />
           </FormControl>
-          <Button type="submit" mt="30px" onClick={() => runModel()}>
+          <Button
+            type="submit"
+            mt="30px"
+            bg="green.200"
+            color="gray.900"
+            _hover={{ color: "white", bg: "green.400" }}
+            onClick={() => runModel()}
+          >
             Submit
           </Button>
         </>
