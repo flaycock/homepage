@@ -1,4 +1,16 @@
-import { Heading } from "../../../node_modules/@chakra-ui/react";
+import {
+  Heading,
+  Text,
+  Image,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from "../../../node_modules/@chakra-ui/react";
 import { useState, useEffect } from "react";
 import ITEMS from "./data/Items";
 import UPGRADES from "./data/Upgrades";
@@ -10,20 +22,30 @@ const CatPetter = () => {
   const [petCount, setPetCount] = useState(0);
   const [petPerSec, setPetPerSec] = useState(0);
   const [petsClicked, setPetsClicked] = useState(0);
-  const [priceIncr] = useState(1.2);
+  const [priceIncr] = useState(1.1);
   const [items] = useState(ITEMS);
   const [upgrades] = useState(UPGRADES);
   const [upgradeForce, setUpgradeForce] = useState(0);
+  const [buyItemText, setBuyItemText] = useState(
+    "Buy items to automatically generate pets!"
+  );
+  const [buyUpgradeText, setBuyUpgradeText] = useState(
+    "Buy more items to unlock and buy their upgrades!"
+  );
 
   useEffect(() => {
     let clockInterval = setInterval(() => {
       let itemKeys = Object.keys(items);
       itemKeys.forEach((itemKey) =>
         setPetCount(
-          (petCount) => petCount + itemKey.owned * itemKey.petPerSec * itemKey.level
+          (petCount) =>
+            petCount +
+            items[itemKey].owned *
+              items[itemKey].petPerSec *
+              items[itemKey].level
         )
       );
-      setTime(time+1);
+      setTime(time + 1);
     }, 1000);
     return function () {
       clearInterval(clockInterval);
@@ -35,19 +57,23 @@ const CatPetter = () => {
     setPetsClicked(petsClicked + items.cursor.level);
     let upgradeKeys = Object.keys(upgrades);
     upgradeKeys.forEach((upgradeKey) => {
-      if (upgradeKey.item === "cursor" && petsClicked >= upgradeKey.threshhold) {
-        upgradeKey.visible = true;
+      if (
+        upgrades[upgradeKey].item === "cursor" &&
+        petsClicked >= upgrades[upgradeKey].threshhold
+      ) {
+        upgrades[upgradeKey].visible = true;
       }
     });
     setPetCount(newPetCount);
   };
 
   const formatName = (name) => {
+    console.log("formt name");
     let splitName = name.split("_");
-    splitName.map((split) => {
-      return split[0].toUpperCase() + split.substr(1);
+    let formattedNames = splitName.map((word) => {
+      return word[0].toUpperCase() + word.substr(1);
     });
-    return splitName.join(" ");
+    return formattedNames.join(" ");
   };
 
   const formatPets = (count) => {
@@ -79,6 +105,7 @@ const CatPetter = () => {
   };
 
   const buyItem = (itemName) => {
+    setBuyItemText("Buy items to automatically generate pets!");
     let item = items[itemName];
     let cost = Math.round(item.cost * Math.pow(priceIncr, item.owned));
     if (cost <= petCount) {
@@ -87,10 +114,13 @@ const CatPetter = () => {
       let newPetCount = petCount - cost;
       setPetPerSec(petPerSec + item.petPerSec * item.level);
       setPetCount(newPetCount);
+    } else {
+      setBuyItemText("Not enough pets!");
     }
   };
 
   const buyUpgrade = (upgradeName) => {
+    setBuyUpgradeText("Buy more items to unlock and buy their upgrades!");
     let upgrade = upgrades[upgradeName];
     let item = items[upgrade.item];
     if (upgrade.cost <= petCount) {
@@ -106,19 +136,22 @@ const CatPetter = () => {
           currentItemContrib
       );
       setPetCount(newPetCount);
+    } else {
+      setBuyUpgradeText("Not enough pets!");
     }
   };
 
   const checkUpgrade = (itemName) => {
     let item = items[itemName];
-    let upgrades = Object.keys(upgrades);
-    upgrades.forEach((upgrade) => {
+    let upgradeKeys = Object.keys(upgrades);
+    upgradeKeys.forEach((upgradeKey) => {
+      let noOwned = itemName === "cursor" ? petCount : item.owned;
       if (
-        upgrade.item === itemName &&
-        !upgrade.visible &&
-        item.owned >= upgrade.threshhold
+        upgrades[upgradeKey].item === itemName &&
+        !upgrades[upgradeKey].visible &&
+        noOwned >= upgrades[upgradeKey].threshhold
       ) {
-        upgrade.visible = true;
+        upgrades[upgradeKey].visible = true;
       }
     });
     setUpgradeForce(upgradeForce + 1);
@@ -128,9 +161,9 @@ const CatPetter = () => {
   const upgradeKeys = Object.keys(upgrades);
   itemKeys.forEach((itemKey) => {
     if (
-      itemKeys != "cursor" &&
-      !itemKey.visible &&
-      petCount * 3 >= itemKey.cost
+      items[itemKeys] != "cursor" &&
+      !items[itemKey].visible &&
+      petCount * 3 >= items[itemKey].cost
     ) {
       items[itemKey].visible = true;
     }
@@ -141,75 +174,120 @@ const CatPetter = () => {
       <Heading mt="5px" mb="10px">
         Cat Petter
       </Heading>
-      <div id="game">
-        <div id="column">
+      <div id="catPetter">
+        <div className="column">
           <div>
-            <h3>
-              Number of pets: {formatPets(petCount)}
-            </h3>
-            <h4>
-              Pets per second: {formatPets(petPerSec)}
-            </h4>
-            <img
+            <Heading p="5px" size="md">
+              Number of pets:&nbsp;
+              <Text display="inline">{formatPets(petCount)}</Text>
+            </Heading>
+            <Heading p="5px" size="md">
+              Pets per second:&nbsp;
+              <Text display="inline">{formatPets(petPerSec)}</Text>
+            </Heading>
+            <Image
               src={cat}
+              cursor="pointer"
               id="pixelCat"
+              alt="A Cute Kitty Needing Pets"
               onClick={() => manCatPet()}
             />
           </div>
         </div>
-        <div id="column">
-          <h3>
-            Buy Items Below!
-          </h3>
+        <div className="column">
+          <Heading pt="5px" size="md">
+            Buy Items
+          </Heading>
           <div id="item-wrapper">
-            <table>
-              <tbody>
-                {itemKeys.map(
-                  (item) =>
-                    items[item].visible && (
-                      <tr
-                        key={item}
-                        onClick={() => {
-                          buyItem(item);
-                          checkUpgrade(item);
-                        }}
-                      >
-                        <td>
-                          {formatName(item)}
-                          {items[item].level > 1
-                            ? " x" + items[item].level
-                            : ""}
-                        </td>
-                        <td>{formatPets(itemCost(items[item]))} pets</td>
-                        <td>Owned: {items[item].owned}</td>
-                      </tr>
-                    )
-                )}
-              </tbody>
-            </table>
+            <TableContainer>
+              <Table variant="simple">
+                <TableCaption
+                  color={buyItemText.includes("Buy") ? "gray.600" : "red.400"}
+                  placement="top"
+                >
+                  {buyItemText}
+                </TableCaption>
+                <Thead>
+                  <Tr>
+                    <Th>Item</Th>
+                    <Th>Pets per sec</Th>
+                    <Th>Cost</Th>
+                    <Th>Number Owned</Th>
+                  </Tr>
+                </Thead>
+                <Tbody>
+                  {itemKeys.map(
+                    (item) =>
+                      item != "cursor" &&
+                      items[item].visible && (
+                        <Tr
+                          key={item}
+                          cursor="pointer"
+                          onClick={() => {
+                            buyItem(item);
+                            checkUpgrade(item);
+                          }}
+                          _hover={
+                            items[item].cost <= petCount
+                              ? { bg: "orange.100", opacity: "0.6" }
+                              : {
+                                  color: "white",
+                                  bg: "red.400",
+                                  opacity: "0.8",
+                                }
+                          }
+                        >
+                          <Td>
+                            {formatName(item)}
+                            {items[item].level > 1
+                              ? " Mark " + items[item].level
+                              : ""}
+                          </Td>
+                          <Td>{items[item].petPerSec * items[item].level}</Td>
+                          <Td>{formatPets(itemCost(items[item]))} pets</Td>
+                          <Td>Owned: {items[item].owned}</Td>
+                        </Tr>
+                      )
+                  )}
+                </Tbody>
+              </Table>
+            </TableContainer>
           </div>
           <br />
-          <h3>
+          <Heading pt="5px" size="md">
             Buy Upgrades Below!
-          </h3>
+          </Heading>
           <div id="upgrade-wrapper">
-            <table>
-              <tbody>
+            <Table>
+              <TableCaption
+                color={buyUpgradeText.includes("Buy") ? "gray.600" : "red.400"}
+                placement="top"
+              >
+                {buyUpgradeText}
+              </TableCaption>
+              <Thead>
+                <Tr>
+                  <Th>Upgrade</Th>
+                  <Th>Cost</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
                 {upgradeKeys.map(
                   (upgrade) =>
                     !upgrades[upgrade].owned &&
                     upgrades[upgrade].visible && (
-                      <tr
+                      <Tr
                         key={upgrade}
+                        cursor="pointer"
                         onClick={() => buyUpgrade(upgrade)}
                       >
-                        <td>{formatName(upgrade)}</td>
-                        <td>{formatPets(upgrades[upgrade].cost)} pets</td>
-                      </tr>
+                        <Td>{formatName(upgrade)}</Td>
+                        <Td>{formatPets(upgrades[upgrade].cost)} pets</Td>
+                      </Tr>
                     )
                 )}
-              </tbody>
-            </table>
+              </Tbody>
+            </Table>
           </div>
         </div>
       </div>

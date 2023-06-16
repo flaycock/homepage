@@ -24,7 +24,11 @@ const Projects = () => {
             project
           ]
         }
-        <Button mt={10} onClick={() => setProject("")}>
+        <Button
+          className="projectsReturn"
+          mt={10}
+          onClick={() => setProject("")}
+        >
           Back to Projects
         </Button>
       </>
@@ -113,6 +117,28 @@ const Projects = () => {
               <CardFooter>
                 <Button onClick={() => setProject("Idm")}>
                   Infect Some People
+                </Button>
+              </CardFooter>
+            </Card>
+            <Card
+              textAlign="center"
+              alignItems="center"
+              bg="orange.200"
+              opacity={0.8}
+              boxShadow="lg"
+            >
+              <CardHeader>
+                <Heading size="md">Art Generator</Heading>
+              </CardHeader>
+              <CardBody>
+                <Text textAlign="left">
+                  Select colour and pattern preferences, and watch as
+                  randomly-generated pieces of art are created!
+                </Text>
+              </CardBody>
+              <CardFooter>
+                <Button onClick={() => setProject("ArtGenerator")}>
+                  Coming Soon!
                 </Button>
               </CardFooter>
             </Card>
