@@ -32,6 +32,7 @@ const Idm = () => {
   const [timeInterval, setTimeInterval] = useState(0);
   const [pplPos, setPplPos] = useState([]);
   const [infPos, setInfPos] = useState([]);
+  const [error, setError] = useState("");
 
   function useInterval(callback, delay) {
     const savedCallback = useRef();
@@ -49,44 +50,66 @@ const Idm = () => {
     }, [delay]);
   }
 
+  const setVariable = (action, value) => {
+    if (typeof value === "number") {
+      action(value);
+    }
+  };
+
+  const inputValidation = () => {
+    return (
+      pop != 0 &&
+      grid != 0 &&
+      step != 0 &&
+      infProb != 0 &&
+      infDist != 0 &&
+      timeInterval != 0
+    );
+  };
+
   const runModel = () => {
-    setLoad(true);
-    if (!pplPos.length && infPos.length) {
-      setFinished(true);
-    } else if (time == 0 && !pplPos.length && !infPos.length) {
-      for (let i = 0; i < pop; i++) {
-        let randX = Math.random() * grid;
-        let randY = Math.random() * grid;
-        pplPos.push({ x: randX, y: randY });
-      }
-      let firstInfIndex = Math.floor(Math.random() * pop);
-      infPos.push(pplPos[firstInfIndex]);
-      pplPos.splice(firstInfIndex, 1);
-    } else {
-      let newPplPos = [];
-      let newInfPos = [];
-      for (let i = 0; i < pplPos.length; i++) {
-        newPplPos.push(calcStep(pplPos[i], step, grid));
-      }
-      for (let j = 0; j < infPos.length; j++) {
-        newInfPos.push(calcStep(infPos[j], step, grid));
-      }
-      let justInfPos = newInfPos;
-      for (let j = 0; j < newInfPos.length; j++) {
-        for (let i = 0; i < newPplPos.length; i++) {
-          let dist =
-            ((newInfPos[j].x - newPplPos[i].x) ** 2 +
-              (newInfPos[j].y - newPplPos[i].y) ** 2) **
-            0.5;
-          if (dist <= infDist && Math.random() <= infProb) {
-            justInfPos.push(newPplPos.splice(i, 1)[0]);
+    setError("");
+    if (inputValidation()) {
+      setLoad(true);
+      if (!pplPos.length && infPos.length) {
+        setFinished(true);
+      } else if (time == 0 && !pplPos.length && !infPos.length) {
+        for (let i = 0; i < pop; i++) {
+          let randX = Math.random() * grid;
+          let randY = Math.random() * grid;
+          pplPos.push({ x: randX, y: randY });
+        }
+        let firstInfIndex = Math.floor(Math.random() * pop);
+        infPos.push(pplPos[firstInfIndex]);
+        pplPos.splice(firstInfIndex, 1);
+      } else {
+        let newPplPos = [];
+        let newInfPos = [];
+        for (let i = 0; i < pplPos.length; i++) {
+          newPplPos.push(calcStep(pplPos[i], step, grid));
+        }
+        for (let j = 0; j < infPos.length; j++) {
+          newInfPos.push(calcStep(infPos[j], step, grid));
+        }
+        let justInfPos = newInfPos;
+        for (let j = 0; j < newInfPos.length; j++) {
+          for (let i = 0; i < newPplPos.length; i++) {
+            let dist =
+              ((newInfPos[j].x - newPplPos[i].x) ** 2 +
+                (newInfPos[j].y - newPplPos[i].y) ** 2) **
+              0.5;
+            if (dist <= infDist && Math.random() <= infProb) {
+              justInfPos.push(newPplPos.splice(i, 1)[0]);
+            }
           }
         }
+        setPplPos(newPplPos);
+        setInfPos(justInfPos);
       }
-      setPplPos(newPplPos);
-      setInfPos(justInfPos);
+      setTime((time) => time + 1);
+    } else {
+      setError("Please make sure to input valid numbers in all fields.");
     }
-    setTime((time) => time + 1);
   };
 
   const calcStep = (person, stepSize, gridLim) => {
@@ -127,84 +150,111 @@ const Idm = () => {
 
   return (
     <div id="IDM">
-      <Heading mt="20px" mb="30px">
+      <Heading mt="5px" mb="10px">
         Infectious Disease Model
       </Heading>
+      <Text id="idmError" mb="10px" color="red.400">
+        {error}
+      </Text>
       {!load ? (
         <>
           <FormControl id="IDM_input">
             <FormLabel textAlign="center">Size of Population</FormLabel>
             <Input
+              id="pop"
               type="number"
               mb="10px"
               isRequired
               width="40%"
+              bg="orange.100"
+              opacity={0.6}
               size="md"
               placeholder="Number of people"
-              onChange={(event) => setPop(parseInt(event.currentTarget.value))}
+              onChange={(event) =>
+                setVariable(setPop, parseInt(event.currentTarget.value))
+              }
             />
             <FormLabel textAlign="center">Length of Grid</FormLabel>
             <Input
+              id="grid"
               type="number"
               mb="10px"
               isRequired
               width="40%"
+              bg="orange.100"
+              opacity={0.6}
               size="md"
               placeholder="Grid will be AxA in size"
               onChange={(event) =>
-                setGrid(parseFloat(event.currentTarget.value))
+                setVariable(setGrid, parseFloat(event.currentTarget.value))
               }
             />
             <FormLabel textAlign="center">Step Size</FormLabel>
             <Input
+              id="step"
               type="number"
               mb="10px"
               isRequired
               width="40%"
+              bg="orange.100"
+              opacity={0.6}
               size="md"
               placeholder="The size of each person's step"
               onChange={(event) =>
-                setStep(parseFloat(event.currentTarget.value))
+                setVariable(setStep, parseFloat(event.currentTarget.value))
               }
             />
             <FormLabel textAlign="center">Infection Probability</FormLabel>
             <Input
+              id="infProb"
               type="number"
               mb="10px"
               isRequired
               width="40%"
+              bg="orange.100"
+              opacity={0.6}
               size="md"
               placeholder="Chance of an infected infecting someone else"
               onChange={(event) =>
-                setInfProb(parseFloat(event.currentTarget.value))
+                setVariable(setInfProb, parseFloat(event.currentTarget.value))
               }
             />
             <FormLabel textAlign="center">Infection Proximity</FormLabel>
             <Input
+              id="infDist"
               type="number"
               mb="10px"
               isRequired
               width="40%"
+              bg="orange.100"
+              opacity={0.6}
               size="md"
               placeholder="Minimum distance required for infection"
               onChange={(event) =>
-                setInfDist(parseFloat(event.currentTarget.value))
+                setVariable(setInfDist, parseFloat(event.currentTarget.value))
               }
             />
             <FormLabel textAlign="center">Time Interval</FormLabel>
             <Input
+              id="timeInterval"
               type="number"
               mb="10px"
               isRequired
               width="40%"
+              bg="orange.100"
+              opacity={0.6}
               size="md"
               placeholder="Time (s) between each step of the model"
               onChange={(event) =>
-                setTimeInterval(parseFloat(event.currentTarget.value))
+                setVariable(
+                  setTimeInterval,
+                  parseFloat(event.currentTarget.value)
+                )
               }
             />
           </FormControl>
           <Button
+            id="idmSubmit"
             type="submit"
             mt="30px"
             bg="green.200"
@@ -246,11 +296,12 @@ const Idm = () => {
                 },
               ],
             }}
+            id="idmPlot"
           />
           {finished && (
             <>
               <Text>The model completed in {time} steps</Text>
-              <Button mt="30px" onClick={() => reset()}>
+              <Button mt="10px" onClick={() => reset()}>
                 Run Another Model
               </Button>
             </>

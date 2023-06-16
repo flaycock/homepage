@@ -11,25 +11,34 @@ import {
 import { useState } from "react";
 import Wumble from "../projects/Wumble/Wumble";
 import Idm from "../projects/Idm/Idm";
+import CatPetter from "../projects/CatPetter/CatPetter";
 
 const Projects = () => {
   const [project, setProject] = useState("");
+
+  const loadProject = (project) => {
+    return (
+      <>
+        {
+          { Wumble: <Wumble />, Idm: <Idm />, CatPetter: <CatPetter /> }[
+            project
+          ]
+        }
+        <Button
+          className="projectsReturn"
+          mt={10}
+          onClick={() => setProject("")}
+        >
+          Back to Projects
+        </Button>
+      </>
+    );
+  };
+
   return (
     <>
-      {project === "Wumble" ? (
-        <>
-          <Wumble />
-          <Button mt={20} onClick={() => setProject("")}>
-            Back to Projects
-          </Button>
-        </>
-      ) : project === "Idm" ? (
-        <>
-          <Idm />
-          <Button mt={10} onClick={() => setProject("")}>
-            Back to Projects
-          </Button>
-        </>
+      {project != "" ? (
+        loadProject(project)
       ) : (
         <>
           <Heading className="projectsHeading" pb={30} size="2xl">
@@ -59,7 +68,7 @@ const Projects = () => {
               </CardBody>
               <CardFooter>
                 <Button onClick={() => setProject("CatPetter")}>
-                  Coming Soon!
+                  Pet Some Cats
                 </Button>
               </CardFooter>
             </Card>
@@ -82,7 +91,7 @@ const Projects = () => {
               </CardBody>
               <CardFooter>
                 <Button onClick={() => setProject("Wumble")}>
-                  Click here to Play!
+                  Guess Some Words
                 </Button>
               </CardFooter>
             </Card>
@@ -107,7 +116,29 @@ const Projects = () => {
               </CardBody>
               <CardFooter>
                 <Button onClick={() => setProject("Idm")}>
-                  Click here to Play!
+                  Infect Some People
+                </Button>
+              </CardFooter>
+            </Card>
+            <Card
+              textAlign="center"
+              alignItems="center"
+              bg="orange.200"
+              opacity={0.8}
+              boxShadow="lg"
+            >
+              <CardHeader>
+                <Heading size="md">Art Generator</Heading>
+              </CardHeader>
+              <CardBody>
+                <Text textAlign="left">
+                  Select colour and pattern preferences, and watch as
+                  randomly-generated pieces of art are created!
+                </Text>
+              </CardBody>
+              <CardFooter>
+                <Button onClick={() => setProject("ArtGenerator")}>
+                  Coming Soon!
                 </Button>
               </CardFooter>
             </Card>
