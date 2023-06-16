@@ -68,7 +68,6 @@ const CatPetter = () => {
   };
 
   const formatName = (name) => {
-    console.log("formt name");
     let splitName = name.split("_");
     let formattedNames = splitName.map((word) => {
       return word[0].toUpperCase() + word.substr(1);
