@@ -1,4 +1,5 @@
 import { useState } from "react";
+import arrayShuffle from "../../../node_modules/array-shuffle";
 import {
   Heading,
   Input,
@@ -15,14 +16,20 @@ const PixelArt = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [table, setTable] = useState();
-  //const [pattern, setPattern] = useState('');
-  //above is for pattern type, e.g. random, spiral, diagonal fade etc.
+  const [pattern, setPattern] = useState("");
 
   const submitInputs = () => {
-    if (pixels && pixels !== 0 && colour && colour != "0,0,0") {
+    if (
+      pixels &&
+      pixels !== 0 &&
+      colour &&
+      colour != "0,0,0" &&
+      pattern &&
+      ["normal", "random"].includes(pattern)
+    ) {
       setSubmitted(true);
       generateTable(pixels, colour);
-      setTimeout(() => changeColours(colour, pixels), 1000);
+      setTimeout(() => changeColours(colour, pixels, pattern), 1000);
     } else {
       setError("Please input valid arguments.");
     }
@@ -96,10 +103,13 @@ const PixelArt = () => {
     setTable(baseRows);
   };
 
-  const changeColours = (colour, pixels) => {
+  const changeColours = (colour, pixels, pattern) => {
     console.log(colour);
     let previousColour = colour.split(",");
-    let rows = document.querySelectorAll(".pixelRow");
+    let rows = Array.from(document.querySelectorAll(".pixelRow"));
+    if (pattern === "random") {
+      rows = arrayShuffle(rows);
+    }
     rows.forEach((row) => {
       row.querySelectorAll(".pixelCell").forEach((cell) => {
         let chosenRGB = Math.round(Math.random() * 2);
@@ -165,6 +175,22 @@ const PixelArt = () => {
               placeholder="e.g. 400 pixel width"
               onChange={(event) =>
                 setNumber(setPixels, parseInt(event.currentTarget.value))
+              }
+            />
+            <FormLabel textAlign="center">Processing Pattern</FormLabel>
+            <Input
+              id="width"
+              type="text"
+              mb="10px"
+              isRequired
+              width="40%"
+              bg="orange.100"
+              opacity={0.6}
+              size="md"
+              defaultValue="normal"
+              placeholder="How pixels are changed, either 'normal' or 'random'"
+              onChange={(event) =>
+                setPattern(event.currentTarget.value.toLowerCase())
               }
             />
           </FormControl>
