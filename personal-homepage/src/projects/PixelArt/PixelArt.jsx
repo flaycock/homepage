@@ -128,7 +128,7 @@ const PixelArt = () => {
   };
 
   const colourProcess = (previousColour, pixels) => {
-    let chosenRGB = Math.round(Math.random() * 2);
+    let chosenRGB = Math.round(Math.random() * 2.3);
     let colourDiff = Math.max(500 / pixels, 10);
     colourDiff *= Math.random() < 0.5 ? -1 : 1;
     previousColour[chosenRGB] =

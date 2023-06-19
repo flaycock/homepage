@@ -45,14 +45,14 @@ const Projects = () => {
         loadProject(project)
       ) : (
         <>
-          <Heading className="projectsHeading" pb={30} size="2xl">
+          <Heading className="projectsHeading" pb={10} size="2xl">
             Projects
           </Heading>
           <Text>
             This section contains a few of my personal projects that I would
             like to share, along with the GitHub links to the source code.
           </Text>
-          <SimpleGrid pt={30} columns={3} spacing={10}>
+          <SimpleGrid pt={10} columns={3} spacing={5}>
             <Card
               textAlign="center"
               alignItems="center"
