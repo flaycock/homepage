@@ -16,7 +16,7 @@ const PixelArt = () => {
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const [table, setTable] = useState();
-  const [pattern, setPattern] = useState("");
+  const [pattern, setPattern] = useState("normal");
 
   const submitInputs = () => {
     if (
@@ -106,28 +106,40 @@ const PixelArt = () => {
   const changeColours = (colour, pixels, pattern) => {
     console.log(colour);
     let previousColour = colour.split(",");
-    let rows = Array.from(document.querySelectorAll(".pixelRow"));
     if (pattern === "random") {
-      rows = arrayShuffle(rows);
-    }
-    rows.forEach((row) => {
-      row.querySelectorAll(".pixelCell").forEach((cell) => {
-        let chosenRGB = Math.round(Math.random() * 2);
-        let colourDiff = 750 / pixels;
-        colourDiff *= Math.random() < 0.5 ? -1 : 1;
-        previousColour[chosenRGB] = mod(
-          parseInt(previousColour[chosenRGB]) - colourDiff,
-          255
-        );
-        let newColour = previousColour.join(",");
+      let allCells = Array.from(document.querySelectorAll(".pixelCell"));
+      allCells = arrayShuffle(allCells);
+      allCells.forEach((cell) => {
+        let newColour = colourProcess(previousColour, pixels);
         cell.style.backgroundColor = "rgb(" + newColour + ")";
         previousColour = newColour.split(",");
       });
-    });
+    } else {
+      let rows = Array.from(document.querySelectorAll(".pixelRow"));
+      rows.forEach((row) => {
+        let cells = Array.from(row.querySelectorAll(".pixelCell"));
+        cells.forEach((cell) => {
+          let newColour = colourProcess(previousColour, pixels);
+          cell.style.backgroundColor = "rgb(" + newColour + ")";
+          previousColour = newColour.split(",");
+        });
+      });
+    }
   };
 
-  const mod = (num, modulo) => {
-    return ((num % modulo) + modulo) % modulo;
+  const colourProcess = (previousColour, pixels) => {
+    let chosenRGB = Math.round(Math.random() * 2);
+    let colourDiff = 500 / pixels;
+    colourDiff *= Math.random() < 0.5 ? -1 : 1;
+    previousColour[chosenRGB] =
+      parseInt(previousColour[chosenRGB]) - colourDiff;
+    if (previousColour[chosenRGB] < 0) {
+      previousColour[chosenRGB] * -1;
+    } else if (previousColour[chosenRGB] > 255) {
+      previousColour[chosenRGB] = 255 - (previousColour[chosenRGB] - 255);
+    }
+    let newColour = previousColour.join(",");
+    return newColour;
   };
 
   return (
@@ -155,7 +167,7 @@ const PixelArt = () => {
               bg="orange.100"
               opacity={0.6}
               size="md"
-              placeholder="e.g. Red, Yellow, Blue"
+              placeholder="Pick a common colour, primary or secondary"
               onChange={(event) =>
                 setPixels(
                   convertColour(event.currentTarget.value.toLowerCase())
@@ -172,7 +184,7 @@ const PixelArt = () => {
               bg="orange.100"
               opacity={0.6}
               size="md"
-              placeholder="e.g. 400 pixel width"
+              placeholder="The picture will be AxA pixels"
               onChange={(event) =>
                 setNumber(setPixels, parseInt(event.currentTarget.value))
               }
