@@ -12,6 +12,7 @@ import { useState } from "react";
 import Wumble from "../projects/Wumble/Wumble";
 import Idm from "../projects/Idm/Idm";
 import CatPetter from "../projects/CatPetter/CatPetter";
+import PixelArt from "../projects/PixelArt/PixelArt";
 
 const Projects = () => {
   const [project, setProject] = useState("");
@@ -20,9 +21,12 @@ const Projects = () => {
     return (
       <>
         {
-          { Wumble: <Wumble />, Idm: <Idm />, CatPetter: <CatPetter /> }[
-            project
-          ]
+          {
+            Wumble: <Wumble />,
+            Idm: <Idm />,
+            CatPetter: <CatPetter />,
+            PixelArt: <PixelArt />,
+          }[project]
         }
         <Button
           className="projectsReturn"
@@ -41,14 +45,14 @@ const Projects = () => {
         loadProject(project)
       ) : (
         <>
-          <Heading className="projectsHeading" pb={30} size="2xl">
+          <Heading className="projectsHeading" pb={10} size="2xl">
             Projects
           </Heading>
           <Text>
             This section contains a few of my personal projects that I would
             like to share, along with the GitHub links to the source code.
           </Text>
-          <SimpleGrid pt={30} columns={3} spacing={10}>
+          <SimpleGrid pt={10} columns={3} spacing={5}>
             <Card
               textAlign="center"
               alignItems="center"
@@ -128,7 +132,7 @@ const Projects = () => {
               boxShadow="lg"
             >
               <CardHeader>
-                <Heading size="md">Art Generator</Heading>
+                <Heading size="md">Pixel Art</Heading>
               </CardHeader>
               <CardBody>
                 <Text textAlign="left">
@@ -137,8 +141,8 @@ const Projects = () => {
                 </Text>
               </CardBody>
               <CardFooter>
-                <Button onClick={() => setProject("ArtGenerator")}>
-                  Coming Soon!
+                <Button onClick={() => setProject("PixelArt")}>
+                  Generate Some Art
                 </Button>
               </CardFooter>
             </Card>

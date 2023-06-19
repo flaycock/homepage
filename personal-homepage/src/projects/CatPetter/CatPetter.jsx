@@ -170,10 +170,14 @@ const CatPetter = () => {
 
   return (
     <>
-      <Heading mt="5px" mb="10px">
-        Cat Petter
-      </Heading>
       <div id="catPetter">
+        <Heading id="catPetterHeader" mt="5px" mb="10px">
+          Cat Petter
+        </Heading>
+        <Text size="lg">
+          Click on the cat to gain &apos;pets&apos;, then use those pets to buy
+          items and upgrades to gain more pets!
+        </Text>
         <div className="column">
           <div>
             <Heading p="5px" size="md">
