@@ -154,7 +154,8 @@ const Idm = () => {
         Infectious Disease Model
       </Heading>
       <Text size="lg">
-          Define your model parameters here. These will effect how the test will run. Once you are done click Submit!
+        Define your model parameters here. These will effect how the test will
+        run. Once you are done click Submit!
       </Text>
       <Text id="idmError" mb="10px" color="red.400">
         {error}
