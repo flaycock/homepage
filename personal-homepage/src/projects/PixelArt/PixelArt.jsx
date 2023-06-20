@@ -7,14 +7,18 @@ import {
   FormControl,
   Button,
   FormLabel,
+  Radio,
+  RadioGroup,
+  HStack,
 } from "../../../node_modules/@chakra-ui/react";
 import "./PixelArt.css";
 
 const PixelArt = () => {
   const [pixels, setPixels] = useState(0);
-  const [colour, setColour] = useState("0,0,0");
+  const [colour, setColour] = useState("229,62,62");
   const [submitted, setSubmitted] = useState(false);
-  const [error, setError] = useState("");
+  const [finished, setFinished] = useState(false);
+  const [msg, setMsg] = useState("");
   const [table, setTable] = useState();
   const [pattern, setPattern] = useState("normal");
 
@@ -25,46 +29,14 @@ const PixelArt = () => {
       colour &&
       colour != "0,0,0" &&
       pattern &&
-      ["normal", "random"].includes(pattern)
+      ["normal", "random", "diagonal", "spiral"].includes(pattern)
     ) {
       setSubmitted(true);
       generateTable(pixels, colour);
+      setMsg("Loading...");
       setTimeout(() => changeColours(colour, pixels, pattern), 1000);
     } else {
-      setError("Please input valid arguments.");
-    }
-  };
-
-  const convertColour = (colourName) => {
-    setError("");
-    switch (colourName) {
-      case "red":
-        setColour("229,62,62");
-        break;
-      case "blue":
-        setColour("66,153,225");
-        break;
-      case "yellow":
-        setColour("236,201,75");
-        break;
-      case "green":
-        setColour("72,187,120");
-        break;
-      case "orange":
-        setColour("237,137,54");
-        break;
-      case "purple":
-        setColour("159,122,234");
-        break;
-      case "pink":
-        setColour("237,100,166");
-        break;
-      case "grey":
-        setColour("160,174,192");
-        break;
-      default:
-        setError("Please input a valid colour");
-        break;
+      setMsg("Please input valid arguments.");
     }
   };
 
@@ -75,7 +47,7 @@ const PixelArt = () => {
   };
 
   const generateTable = (pixels, colour) => {
-    setError("");
+    setMsg("Loading");
     let baseRows = [];
     let widthHeight = 500 / pixels;
     for (let i = 0; i < pixels; i++) {
@@ -84,7 +56,7 @@ const PixelArt = () => {
         baseCells.push(
           <td
             className="pixelCell"
-            id={`cell_${i}${j}`}
+            id={`${i},${j}`}
             key={`${i}${j}`}
             style={{
               backgroundColor: `rgba(${colour})`,
@@ -95,7 +67,7 @@ const PixelArt = () => {
         );
       }
       baseRows.push(
-        <tr className="pixelRow" id={`row_${i}`} key={i}>
+        <tr className="pixelRow" id={`${i}`} key={i}>
           {baseCells}
         </tr>
       );
@@ -104,42 +76,134 @@ const PixelArt = () => {
   };
 
   const changeColours = (colour, pixels, pattern) => {
-    console.log(colour);
     let previousColour = colour.split(",");
     if (pattern === "random") {
       let allCells = Array.from(document.querySelectorAll(".pixelCell"));
       allCells = arrayShuffle(allCells);
-      allCells.forEach((cell) => {
-        let newColour = colourProcess(previousColour, pixels);
-        cell.style.backgroundColor = "rgb(" + newColour + ")";
-        previousColour = newColour.split(",");
-      });
+      previousColour = colourProcess(previousColour, pixels, allCells);
+    } else if (pattern === "diagonal") {
+      let allCells = Array.from(document.querySelectorAll(".pixelCell"));
+      for (let i = 1; i < allCells.length; i++) {
+        let prevCellCoords = allCells[i - 1].id.split(",");
+        let prevPrevCellCoords;
+        let newCoords;
+        if (i < 2) {
+          newCoords = "0,1";
+        } else {
+          prevPrevCellCoords = allCells[i - 2].id.split(",");
+          if (prevCellCoords[0] == "0" && prevCellCoords[1] != "0") {
+            newCoords =
+              prevPrevCellCoords[0] == "0"
+                ? "1," + (parseInt(prevCellCoords[1]) - 1)
+                : "0," + (parseInt(prevCellCoords[1]) + 1);
+          } else if (prevCellCoords[1] == "0" && prevCellCoords[0] != "0") {
+            newCoords =
+              prevPrevCellCoords[1] == "0"
+                ? parseInt(prevCellCoords[0]) - 1 + ",1"
+                : parseInt(prevCellCoords[0]) + 1 + ",0";
+          } else {
+            newCoords =
+              parseInt(prevPrevCellCoords[0]) < parseInt(prevCellCoords[0])
+                ? parseInt(prevCellCoords[0]) +
+                  1 +
+                  "," +
+                  (parseInt(prevCellCoords[1]) - 1)
+                : parseInt(prevCellCoords[0]) -
+                  1 +
+                  "," +
+                  (parseInt(prevCellCoords[1]) + 1);
+          }
+        }
+        let movingEl = allCells.filter((cell) => cell.id === newCoords)[0];
+        allCells = moveEl(allCells, allCells.indexOf(movingEl), i);
+      }
+      previousColour = colourProcess(previousColour, pixels, allCells);
+    } else if (pattern == "spiral") {
+      let allCells = Array.from(document.querySelectorAll(".pixelCell"));
+      let direction = "right";
+      let minPos = 0;
+      for (let i = 1; i < allCells.length; i++) {
+        let prevCellCoords = allCells[i - 1].id.split(",");
+        let newCoords;
+        if (direction == "right") {
+          if (prevCellCoords[1] == (pixels - minPos - 1).toString()) {
+            direction = "down";
+          } else {
+            newCoords =
+              prevCellCoords[0] + "," + (parseInt(prevCellCoords[1]) + 1);
+          }
+        }
+        if (direction == "down") {
+          if (prevCellCoords[0] == (pixels - minPos - 1).toString()) {
+            direction = "left";
+          } else {
+            newCoords =
+              parseInt(prevCellCoords[0]) + 1 + "," + prevCellCoords[1];
+          }
+        }
+        if (direction == "left") {
+          if (prevCellCoords[1] == minPos.toString()) {
+            direction = "up";
+          } else {
+            newCoords =
+              prevCellCoords[0] + "," + (parseInt(prevCellCoords[1]) - 1);
+          }
+        }
+        if (direction == "up") {
+          if (prevCellCoords[0] == (minPos + 1).toString()) {
+            direction = "right";
+            minPos += 1;
+            newCoords =
+              prevCellCoords[0] + "," + (parseInt(prevCellCoords[1]) + 1);
+          } else {
+            newCoords =
+              parseInt(prevCellCoords[0]) - 1 + "," + prevCellCoords[1];
+          }
+        }
+        let movingEl = allCells.filter((cell) => cell.id === newCoords)[0];
+        allCells = moveEl(allCells, allCells.indexOf(movingEl), i);
+      }
+      previousColour = colourProcess(previousColour, pixels, allCells);
     } else {
       let rows = Array.from(document.querySelectorAll(".pixelRow"));
       rows.forEach((row) => {
         let cells = Array.from(row.querySelectorAll(".pixelCell"));
-        cells.forEach((cell) => {
-          let newColour = colourProcess(previousColour, pixels);
-          cell.style.backgroundColor = "rgb(" + newColour + ")";
-          previousColour = newColour.split(",");
-        });
+        previousColour = colourProcess(previousColour, pixels, cells);
       });
     }
+    setFinished(true);
+    setMsg("");
   };
 
-  const colourProcess = (previousColour, pixels) => {
-    let chosenRGB = Math.round(Math.random() * 2.3);
-    let colourDiff = Math.max(500 / pixels, 10);
-    colourDiff *= Math.random() < 0.5 ? -1 : 1;
-    previousColour[chosenRGB] =
-      parseInt(previousColour[chosenRGB]) - colourDiff;
-    if (previousColour[chosenRGB] < 0) {
-      previousColour[chosenRGB] * -1;
-    } else if (previousColour[chosenRGB] > 255) {
-      previousColour[chosenRGB] = 255 - (previousColour[chosenRGB] - 255);
-    }
-    let newColour = previousColour.join(",");
-    return newColour;
+  const moveEl = (array, from, to) => {
+    const el = array.splice(from, 1)[0];
+    array.splice(to, 0, el);
+    return array;
+  };
+
+  const colourProcess = (previousColour, pixels, cells) => {
+    let finishingColour = previousColour;
+    cells.forEach((cell) => {
+      let chosenRGB = Math.round(Math.random() * 2.3);
+      let colourDiff = Math.max(500 / pixels, 5);
+      colourDiff *= Math.random() < 0.5 ? -1 : 1;
+      finishingColour[chosenRGB] =
+        parseInt(finishingColour[chosenRGB]) - colourDiff;
+      if (finishingColour[chosenRGB] < 0) {
+        finishingColour[chosenRGB] * -1;
+      } else if (finishingColour[chosenRGB] > 255) {
+        finishingColour[chosenRGB] = 255 - (finishingColour[chosenRGB] - 255);
+      }
+      let newColour = finishingColour.join(",");
+      cell.style.backgroundColor = "rgb(" + newColour + ")";
+      finishingColour = newColour.split(",");
+    });
+    return finishingColour;
+  };
+
+  const reset = () => {
+    setFinished(false);
+    setSubmitted(false);
   };
 
   return (
@@ -147,33 +211,55 @@ const PixelArt = () => {
       <Heading mt="5px" mb="10px">
         Pixel Art
       </Heading>
-      <Text size="lg">
+      <Text size="xl">
         Input how big you want the canvas to be, a starting colour, and watch as
         a computer-generated piece of art is created!
       </Text>
-      <Text id="pixelError" mb="10px" color="red.400">
-        {error}
+      <Text id="pixelError" m="10px" size="xl" fontSize="16pt" color="red.400">
+        {msg}
       </Text>
       {!submitted ? (
         <>
           <FormControl>
             <FormLabel textAlign="center">Starting Colour</FormLabel>
-            <Input
+            <RadioGroup
               id="colour"
               type="text"
-              mb="10px"
-              isRequired
+              m="auto"
               width="40%"
-              bg="orange.100"
+              value={colour}
               opacity={0.6}
               size="md"
-              placeholder="Pick a common colour, primary or secondary"
-              onChange={(event) =>
-                setPixels(
-                  convertColour(event.currentTarget.value.toLowerCase())
-                )
-              }
-            />
+              pb="10px"
+              onChange={setColour}
+            >
+              <HStack spacing="24px" justify="center">
+                <Radio colorScheme="red" value="229,62,62">
+                  Red
+                </Radio>
+                <Radio colorScheme="blue" value="66,153,225">
+                  Blue
+                </Radio>
+                <Radio colorScheme="yellow" value="236,201,75">
+                  Yellow
+                </Radio>
+                <Radio colorScheme="green" value="72,187,120">
+                  Green
+                </Radio>
+                <Radio colorScheme="orange" value="237,137,54">
+                  Orange
+                </Radio>
+                <Radio colorScheme="purple" value="159,122,234">
+                  Purple
+                </Radio>
+                <Radio colorScheme="pink" value="237,100,166">
+                  Pink
+                </Radio>
+                <Radio colorScheme="black" value="160,174,192">
+                  Grey
+                </Radio>
+              </HStack>
+            </RadioGroup>
             <FormLabel textAlign="center">Picture Width</FormLabel>
             <Input
               id="width"
@@ -190,21 +276,32 @@ const PixelArt = () => {
               }
             />
             <FormLabel textAlign="center">Processing Pattern</FormLabel>
-            <Input
-              id="width"
+            <RadioGroup
+              id="pattern"
               type="text"
-              mb="10px"
-              isRequired
+              m="auto"
               width="40%"
-              bg="orange.100"
+              value={pattern}
               opacity={0.6}
               size="md"
-              defaultValue="normal"
-              placeholder="How pixels are changed, either 'normal' or 'random'"
-              onChange={(event) =>
-                setPattern(event.currentTarget.value.toLowerCase())
-              }
-            />
+              pb="10px"
+              onChange={setPattern}
+            >
+              <HStack spacing="24px" justify="center">
+                <Radio colorScheme="red" value="normal">
+                  Normal
+                </Radio>
+                <Radio colorScheme="blue" value="random">
+                  Random
+                </Radio>
+                <Radio colorScheme="yellow" value="diagonal">
+                  Diagonal
+                </Radio>
+                <Radio colorScheme="green" value="spiral">
+                  Spiral
+                </Radio>
+              </HStack>
+            </RadioGroup>
           </FormControl>
           <Button
             id="pixelSubmit"
@@ -222,6 +319,18 @@ const PixelArt = () => {
         <table>
           <tbody>{table}</tbody>
         </table>
+      )}
+      {finished && (
+        <Button
+          color="gray.900"
+          bg="green.200"
+          _hover={{ color: "white", bg: "green.400" }}
+          mb="-10px"
+          mt="10px"
+          onClick={() => reset()}
+        >
+          Generate Another
+        </Button>
       )}
     </div>
   );
