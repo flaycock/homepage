@@ -18,7 +18,7 @@ const PixelArt = () => {
   const [colour, setColour] = useState("229,62,62");
   const [submitted, setSubmitted] = useState(false);
   const [finished, setFinished] = useState(false);
-  const [error, setError] = useState("");
+  const [msg, setMsg] = useState("");
   const [table, setTable] = useState();
   const [pattern, setPattern] = useState("normal");
 
@@ -29,13 +29,14 @@ const PixelArt = () => {
       colour &&
       colour != "0,0,0" &&
       pattern &&
-      ["normal", "random", "diagonal"].includes(pattern)
+      ["normal", "random", "diagonal", "spiral"].includes(pattern)
     ) {
       setSubmitted(true);
       generateTable(pixels, colour);
+      setMsg("Loading...");
       setTimeout(() => changeColours(colour, pixels, pattern), 1000);
     } else {
-      setError("Please input valid arguments.");
+      setMsg("Please input valid arguments.");
     }
   };
 
@@ -46,7 +47,7 @@ const PixelArt = () => {
   };
 
   const generateTable = (pixels, colour) => {
-    setError("");
+    setMsg("Loading");
     let baseRows = [];
     let widthHeight = 500 / pixels;
     for (let i = 0; i < pixels; i++) {
@@ -117,6 +118,52 @@ const PixelArt = () => {
         allCells = moveEl(allCells, allCells.indexOf(movingEl), i);
       }
       previousColour = colourProcess(previousColour, pixels, allCells);
+    } else if (pattern == "spiral") {
+      let allCells = Array.from(document.querySelectorAll(".pixelCell"));
+      let direction = "right";
+      let minPos = 0;
+      for (let i = 1; i < allCells.length; i++) {
+        let prevCellCoords = allCells[i - 1].id.split(",");
+        let newCoords;
+        if (direction == "right") {
+          if (prevCellCoords[1] == (pixels - minPos - 1).toString()) {
+            direction = "down";
+          } else {
+            newCoords =
+              prevCellCoords[0] + "," + (parseInt(prevCellCoords[1]) + 1);
+          }
+        }
+        if (direction == "down") {
+          if (prevCellCoords[0] == (pixels - minPos - 1).toString()) {
+            direction = "left";
+          } else {
+            newCoords =
+              parseInt(prevCellCoords[0]) + 1 + "," + prevCellCoords[1];
+          }
+        }
+        if (direction == "left") {
+          if (prevCellCoords[1] == minPos.toString()) {
+            direction = "up";
+          } else {
+            newCoords =
+              prevCellCoords[0] + "," + (parseInt(prevCellCoords[1]) - 1);
+          }
+        }
+        if (direction == "up") {
+          if (prevCellCoords[0] == (minPos + 1).toString()) {
+            direction = "right";
+            minPos += 1;
+            newCoords =
+              prevCellCoords[0] + "," + (parseInt(prevCellCoords[1]) + 1);
+          } else {
+            newCoords =
+              parseInt(prevCellCoords[0]) - 1 + "," + prevCellCoords[1];
+          }
+        }
+        let movingEl = allCells.filter((cell) => cell.id === newCoords)[0];
+        allCells = moveEl(allCells, allCells.indexOf(movingEl), i);
+      }
+      previousColour = colourProcess(previousColour, pixels, allCells);
     } else {
       let rows = Array.from(document.querySelectorAll(".pixelRow"));
       rows.forEach((row) => {
@@ -125,6 +172,7 @@ const PixelArt = () => {
       });
     }
     setFinished(true);
+    setMsg("");
   };
 
   const moveEl = (array, from, to) => {
@@ -163,12 +211,12 @@ const PixelArt = () => {
       <Heading mt="5px" mb="10px">
         Pixel Art
       </Heading>
-      <Text size="lg">
+      <Text size="xl">
         Input how big you want the canvas to be, a starting colour, and watch as
         a computer-generated piece of art is created!
       </Text>
-      <Text id="pixelError" mb="10px" color="red.400">
-        {error}
+      <Text id="pixelError" m="10px" size="xl" fontSize="16pt" color="red.400">
+        {msg}
       </Text>
       {!submitted ? (
         <>
@@ -248,6 +296,9 @@ const PixelArt = () => {
                 </Radio>
                 <Radio colorScheme="yellow" value="diagonal">
                   Diagonal
+                </Radio>
+                <Radio colorScheme="green" value="spiral">
+                  Spiral
                 </Radio>
               </HStack>
             </RadioGroup>
