@@ -13,6 +13,7 @@ import Wumble from "../projects/Wumble/Wumble";
 import Idm from "../projects/Idm/Idm";
 import CatPetter from "../projects/CatPetter/CatPetter";
 import PixelArt from "../projects/PixelArt/PixelArt";
+import SequenceGuesser from "../projects/SequenceGuesser/SequenceGuesser";
 
 const Projects = () => {
   const [project, setProject] = useState("");
@@ -26,6 +27,7 @@ const Projects = () => {
             Idm: <Idm />,
             CatPetter: <CatPetter />,
             PixelArt: <PixelArt />,
+            SequenceGuesser: <SequenceGuesser />,
           }[project]
         }
         <Button
@@ -143,6 +145,28 @@ const Projects = () => {
               <CardFooter>
                 <Button onClick={() => setProject("PixelArt")}>
                   Generate Some Art
+                </Button>
+              </CardFooter>
+            </Card>
+            <Card
+              textAlign="center"
+              alignItems="center"
+              bg="orange.200"
+              opacity={0.8}
+              boxShadow="lg"
+            >
+              <CardHeader>
+                <Heading size="md">Sequence Guesser</Heading>
+              </CardHeader>
+              <CardBody>
+                <Text textAlign="left">
+                  Input a number sequence and watch the code use machine
+                  learning to predict what numbers come next!
+                </Text>
+              </CardBody>
+              <CardFooter>
+                <Button onClick={() => setProject("SequenceGuesser")}>
+                  Coming Soon!
                 </Button>
               </CardFooter>
             </Card>
