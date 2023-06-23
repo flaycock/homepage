@@ -166,7 +166,7 @@ const Projects = () => {
               </CardBody>
               <CardFooter>
                 <Button onClick={() => setProject("SequenceGuesser")}>
-                  Coming Soon!
+                  Guess Some Sequences
                 </Button>
               </CardFooter>
             </Card>
