@@ -103,7 +103,7 @@ const SequenceGuesser = () => {
 
   return (
     <div id="sequenceGuesser">
-      <Heading className="projectsHeading" pb={10} size="2xl">
+      <Heading className="projectsHeading" pb={10}>
         Sequence Guesser
       </Heading>
       <Text size="xl">
@@ -125,7 +125,7 @@ const SequenceGuesser = () => {
       </Text>
       {!submitted ? (
         <>
-          <Heading p={10} size="lg">
+          <Heading p={10} size="md">
             Input your 5-number sequence below!
           </Heading>
           <div id="sequenceInputs">
@@ -212,7 +212,7 @@ const SequenceGuesser = () => {
         </Text>
       ) : submitted && !trained && correct ? (
         <>
-          <Heading p={10} size="lg">
+          <Heading p={10} size="md">
             We predict the next number in the sequence {inputs.join(", ")} is:
           </Heading>
           <Text
@@ -251,7 +251,7 @@ const SequenceGuesser = () => {
         </>
       ) : submitted && !trained && !correct ? (
         <>
-          <Heading p={10} size="lg">
+          <Heading p={10} size="md">
             Please input the correct new number in your sequence
           </Heading>
           <NumberInput

@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Tabs,
   TabList,
@@ -12,16 +13,18 @@ import Contact from "./components/Contact";
 import "./App.css";
 
 const App = () => {
-  // Something to investigate; set default tab to open at certain index
-  // so when returning from a Project I am returned to Projects tab instead
-  // of the About Me tab
+  const [mobile, setMobile] = useState(window.innerWidth <= 650);
+  window.addEventListener("resize", () => {
+    setMobile(window.innerWidth <= 650);
+  });
   return (
     <>
-      <Tabs p="10px" align="end" variant="soft-rounded">
+      <Tabs isFitted={mobile} p="10px" align="end" variant="soft-rounded">
         <TabList>
           <Tab
             className="aboutMeTab"
             m="5px"
+            fontSize={["20pt", "20pt", "15pt", "12pt"]}
             _hover={{ color: "gray.900", bg: "green.200" }}
             _selected={{ color: "white", bg: "green.400" }}
           >
@@ -30,6 +33,7 @@ const App = () => {
           <Tab
             className="experienceTab"
             m="5px"
+            fontSize={["20pt", "20pt", "15pt", "12pt"]}
             _hover={{ color: "gray.900", bg: "green.200" }}
             _selected={{ color: "white", bg: "green.400" }}
           >
@@ -38,6 +42,7 @@ const App = () => {
           <Tab
             className="projectsTab"
             m="5px"
+            fontSize={["20pt", "20pt", "15pt", "12pt"]}
             _hover={{ color: "gray.900", bg: "green.200" }}
             _selected={{ color: "white", bg: "green.400" }}
           >
@@ -46,6 +51,7 @@ const App = () => {
           <Tab
             className="contactTab"
             m="5px"
+            fontSize={["20pt", "20pt", "15pt", "12pt"]}
             _hover={{ color: "gray.900", bg: "green.200" }}
             _selected={{ color: "white", bg: "green.400" }}
           >

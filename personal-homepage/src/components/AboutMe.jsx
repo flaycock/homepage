@@ -3,10 +3,14 @@ import { Heading, Text } from "../../node_modules/@chakra-ui/react";
 const AboutMe = () => {
   return (
     <>
-      <Heading className="aboutMeHeading" pb={30} size="2xl">
+      <Heading
+        className="aboutMeHeading"
+        pb={30}
+        size={["4xl", "4xl", "3xl", "2xl"]}
+      >
         About Me
       </Heading>
-      <Text textAlign="left">
+      <Text textAlign="left" fontSize={["18pt", "18pt", "15pt", "13pt"]}>
         Hello! This is a basic website I, Freddie Laycock, have created in order
         to both coalate my personal projects into as single hosted space, as
         well as showcase my skills/information to any interested parties in a

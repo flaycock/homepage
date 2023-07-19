@@ -12,10 +12,14 @@ import {
 const Experience = () => {
   return (
     <>
-      <Heading className="experienceHeading" pb={30} size="2xl">
+      <Heading
+        className="experienceHeading"
+        pb={30}
+        size={["4xl", "4xl", "3xl", "2xl"]}
+      >
         Experience
       </Heading>
-      <Text>
+      <Text fontSize={["18pt", "18pt", "15pt", "13pt"]}>
         Below is a small summary of my software developer career, including the
         roles I have taken up and a brief description of what I was doing in
         each:
@@ -28,7 +32,7 @@ const Experience = () => {
                 as="span"
                 flex="1"
                 borderRadius="5px"
-                fontSize={20}
+                fontSize={["18pt", "18pt", "15pt", "13pt"]}
                 textAlign="left"
               >
                 2022-Present: Farnell Global
@@ -36,7 +40,11 @@ const Experience = () => {
               <AccordionIcon />
             </AccordionButton>
           </h2>
-          <AccordionPanel p={6} textAlign="left">
+          <AccordionPanel
+            p={6}
+            textAlign="left"
+            fontSize={["18pt", "18pt", "15pt", "13pt"]}
+          >
             I currently am a front-end software engineer for Farnell Global,
             maintaining eCommerce and implementing new features. Types of work I
             participate in include:
@@ -74,13 +82,22 @@ const Experience = () => {
         <AccordionItem>
           <h2>
             <AccordionButton _hover={{ color: "gray.900", bg: "green.200" }}>
-              <Box as="span" flex="1" fontSize={20} textAlign="left">
+              <Box
+                as="span"
+                flex="1"
+                fontSize={["18pt", "18pt", "15pt", "13pt"]}
+                textAlign="left"
+              >
                 2021-2022: Helyx SIS
               </Box>
               <AccordionIcon />
             </AccordionButton>
           </h2>
-          <AccordionPanel p={6} textAlign="left">
+          <AccordionPanel
+            p={6}
+            textAlign="left"
+            fontSize={["18pt", "18pt", "15pt", "13pt"]}
+          >
             I was a software engineer for Helyx SIS, developing secure
             geospatial information systems to clients including governmental as
             well as commercial industries. My work encompassed a wide range of
@@ -116,13 +133,22 @@ const Experience = () => {
         <AccordionItem>
           <h2>
             <AccordionButton _hover={{ color: "gray.900", bg: "green.200" }}>
-              <Box as="span" flex="1" fontSize={20} textAlign="left">
+              <Box
+                as="span"
+                flex="1"
+                fontSize={["18pt", "18pt", "15pt", "13pt"]}
+                textAlign="left"
+              >
                 2019-2021: SG Digital
               </Box>
               <AccordionIcon />
             </AccordionButton>
           </h2>
-          <AccordionPanel p={6} textAlign="left">
+          <AccordionPanel
+            p={6}
+            textAlign="left"
+            fontSize={["18pt", "18pt", "15pt", "13pt"]}
+          >
             I was a Level 2 Software Engineer, part of the Paddy Power Betfair
             (PPB) customer team, and my role was to function as a full-stack
             developer, completing a large variety of tasks using numerous

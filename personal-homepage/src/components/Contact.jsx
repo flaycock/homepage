@@ -3,10 +3,14 @@ import { Heading, Text, Link } from "../../node_modules/@chakra-ui/react";
 const Contact = () => {
   return (
     <>
-      <Heading className="contactHeading" pb={30} size="2xl">
+      <Heading
+        className="contactHeading"
+        pb={30}
+        size={["4xl", "4xl", "3xl", "2xl"]}
+      >
         Contact
       </Heading>
-      <Text>
+      <Text fontSize={["18pt", "18pt", "15pt", "13pt"]}>
         For any professional enquiries, please contact me on:
         <br />
         <br />
