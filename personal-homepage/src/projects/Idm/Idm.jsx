@@ -59,6 +59,7 @@ const Idm = () => {
   const inputValidation = () => {
     return (
       pop != 0 &&
+      pop <= 1000 &&
       grid != 0 &&
       step != 0 &&
       infProb != 0 &&
@@ -163,7 +164,9 @@ const Idm = () => {
       {!load ? (
         <>
           <FormControl id="IDM_input">
-            <FormLabel textAlign="center">Size of Population</FormLabel>
+            <FormLabel textAlign="center">
+              Size of Population (capped at 1000)
+            </FormLabel>
             <Input
               id="pop"
               type="number"

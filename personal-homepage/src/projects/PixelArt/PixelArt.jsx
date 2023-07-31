@@ -26,6 +26,7 @@ const PixelArt = () => {
     if (
       pixels &&
       pixels !== 0 &&
+      pixels <= 100 &&
       colour &&
       colour != "0,0,0" &&
       pattern &&
@@ -211,13 +212,23 @@ const PixelArt = () => {
       <Heading mt="5px" mb="10px">
         Pixel Art
       </Heading>
-      <Text size="xl">
-        Input how big you want the canvas to be, a starting colour, and watch as
-        a computer-generated piece of art is created!
-      </Text>
-      <Text id="pixelError" m="10px" size="xl" fontSize="16pt" color="red.400">
-        {msg}
-      </Text>
+      {!table && (
+        <>
+          <Text size="xl">
+            Input how big you want the canvas to be, a starting colour, and
+            watch as a computer-generated piece of art is created!
+          </Text>
+          <Text
+            id="pixelError"
+            m="10px"
+            size="xl"
+            fontSize="16pt"
+            color="red.400"
+          >
+            {msg}
+          </Text>
+        </>
+      )}
       {!submitted ? (
         <>
           <FormControl>
@@ -260,9 +271,11 @@ const PixelArt = () => {
                 </Radio>
               </HStack>
             </RadioGroup>
-            <FormLabel textAlign="center">Picture Width</FormLabel>
+            <FormLabel textAlign="center">
+              Picture Width (capped at 100)
+            </FormLabel>
             <Input
-              id="width"
+              id="pixelWidth"
               type="number"
               mb="10px"
               isRequired
@@ -316,7 +329,7 @@ const PixelArt = () => {
           </Button>
         </>
       ) : (
-        <table>
+        <table id="pixelTable">
           <tbody>{table}</tbody>
         </table>
       )}
