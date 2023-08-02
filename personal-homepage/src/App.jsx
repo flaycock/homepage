@@ -6,10 +6,10 @@ import {
   Tab,
   TabPanel,
 } from "../node_modules/@chakra-ui/react";
-import AboutMe from "./components/AboutMe";
-import Experience from "./components/Experience";
-import Projects from "./components/Projects";
-import Contact from "./components/Contact";
+import AboutMe from "./pages/AboutMe";
+import Experience from "./pages/Experience";
+import Projects from "./pages/Projects";
+import Contact from "./pages/Contact";
 import "./App.css";
 
 const App = () => {
