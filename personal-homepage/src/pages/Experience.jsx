@@ -71,12 +71,12 @@ const Experience = () => {
               </li>
             </ul>
             <br />
-            An example of something I took the lead on design and implementation
-            was a currency converter for our export site. This site in
-            particular gets lots of international traffic, and so we thought it
-            would be useful to the user to have a currency converter tool on the
-            toolbar to automatically convert all pricing on the page to a
-            different currency using a conversion rate API and Javascript.
+            Currently my main focus is our new Raspberry Pi storefront page.
+            This is a brand new, flagship page for all our Raspberry Pi
+            products, and I have been leading this project for the past 6
+            months, building it from the ground up in order to improve customer
+            engagement and to better showcase our products. This project has
+            been using mainly Javascript in combination with API work.
           </AccordionPanel>
         </AccordionItem>
         <AccordionItem>

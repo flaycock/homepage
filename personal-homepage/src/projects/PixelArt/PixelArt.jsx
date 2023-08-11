@@ -23,19 +23,21 @@ const PixelArt = () => {
   const [pattern, setPattern] = useState("normal");
 
   const submitInputs = () => {
-    if (
+    if (pattern == "symmetrical" && pixels % 2 != 0) {
+      setMsg("Must be an even number of pixels for the symmetrical pattern");
+    } else if (
       pixels &&
       pixels !== 0 &&
       pixels <= 100 &&
       colour &&
       colour != "0,0,0" &&
       pattern &&
-      ["normal", "random", "diagonal", "spiral"].includes(pattern)
+      ["normal", "random", "diagonal", "spiral", "symmetrical"].includes(pattern)
     ) {
-      setSubmitted(true);
-      generateTable(pixels, colour);
-      setMsg("Loading...");
-      setTimeout(() => changeColours(colour, pixels, pattern), 1000);
+        setSubmitted(true);
+        generateTable(pixels, colour);
+        setMsg("Loading...");
+        setTimeout(() => changeColours(colour, pixels, pattern), 1000);
     } else {
       setMsg("Please input valid arguments.");
     }
@@ -165,6 +167,22 @@ const PixelArt = () => {
         allCells = moveEl(allCells, allCells.indexOf(movingEl), i);
       }
       previousColour = colourProcess(previousColour, pixels, allCells);
+    } else if (pattern == "symmetrical") {
+      let middlePoint = Math.floor(pixels/2);
+      let allCells = Array.from(document.querySelectorAll(".pixelCell"));
+      let firstQuarter = allCells.filter(cell => parseInt(cell.id.split(',')[0]) < middlePoint && parseInt(cell.id.split(',')[1]) < middlePoint);
+      let shuffledFirstQuarter = arrayShuffle(firstQuarter);
+      previousColour = colourProcess(previousColour, pixels, shuffledFirstQuarter);
+      firstQuarter.forEach(cell => {
+        let origId = cell.id;
+        let cellColour = cell.style.backgroundColor;
+        let firstCood = parseInt(origId.split(',')[0]);
+        let secondCood = parseInt(origId.split(',')[1]);
+        let rightCellId = firstCood + ',' + (pixels-secondCood-1);
+        let bottomCellId = (pixels-firstCood-1) + ',' + secondCood;
+        let bottomRightCellId = (pixels-firstCood-1) + ',' + (pixels-secondCood-1);
+        [rightCellId, bottomCellId, bottomRightCellId].forEach(cellId => document.querySelector(`[id="${cellId}"]`).style.backgroundColor = cellColour);
+      });
     } else {
       let rows = Array.from(document.querySelectorAll(".pixelRow"));
       rows.forEach((row) => {
@@ -312,6 +330,9 @@ const PixelArt = () => {
                 </Radio>
                 <Radio colorScheme="green" value="spiral">
                   Spiral
+                </Radio>
+                <Radio colorScheme="orange" value="symmetrical">
+                  Symmetrical
                 </Radio>
               </HStack>
             </RadioGroup>
