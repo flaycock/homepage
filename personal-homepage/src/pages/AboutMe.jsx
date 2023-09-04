@@ -21,10 +21,11 @@ const AboutMe = () => {
         Farnell Global with a first class degree in Maths from the University of
         Sheffield. I have experience in a variety of different coding languages,
         including front-end (Javascript, React, HTML, CSS) programming, back-end
-        (Node, TCL, Python), database (Informix, SQL), as well as deployment
-        frameworks (Ansible and Jenkins), version control (Git) and Agile
-        methodologies (Scrum). I am ambitious and hardworking, and effective at
-        building strong, efficient working relationships.
+        (Node, TCL, Python), database (Informix, SQL), as well as API
+        architecture styles (REST, GraphQL), deployment frameworks (Ansible and
+        Jenkins), version control (Git) and Agile methodologies (Scrum). I am
+        ambitious and hardworking, and effective at building strong, efficient
+        working relationships.
         <br />
         <br />
         Other than that, I have been a keen badminton player for the past seven

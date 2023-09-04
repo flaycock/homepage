@@ -21,19 +21,25 @@ const PixelArt = () => {
   const [msg, setMsg] = useState("");
   const [table, setTable] = useState();
   const [pattern, setPattern] = useState("normal");
+  const [shape, setShape] = useState("square");
 
   const submitInputs = () => {
-    if (
+    if (pattern == "symmetrical" && pixels % 2 != 0) {
+      setMsg("Must be an even number of pixels for the symmetrical pattern");
+    } else if (
       pixels &&
       pixels !== 0 &&
       pixels <= 100 &&
       colour &&
       colour != "0,0,0" &&
       pattern &&
-      ["normal", "random", "diagonal", "spiral"].includes(pattern)
+      ["normal", "random", "diagonal", "spiral", "symmetrical"].includes(
+        pattern
+      ) &&
+      ["square", "round"].includes(shape)
     ) {
       setSubmitted(true);
-      generateTable(pixels, colour);
+      generateTable(pixels, colour, shape);
       setMsg("Loading...");
       setTimeout(() => changeColours(colour, pixels, pattern), 1000);
     } else {
@@ -47,7 +53,7 @@ const PixelArt = () => {
     }
   };
 
-  const generateTable = (pixels, colour) => {
+  const generateTable = (pixels, colour, shape) => {
     setMsg("Loading");
     let baseRows = [];
     let widthHeight = 500 / pixels;
@@ -56,7 +62,7 @@ const PixelArt = () => {
       for (let j = 0; j < pixels; j++) {
         baseCells.push(
           <td
-            className="pixelCell"
+            className={`pixelCell ${shape}`}
             id={`${i},${j}`}
             key={`${i}${j}`}
             style={{
@@ -165,6 +171,35 @@ const PixelArt = () => {
         allCells = moveEl(allCells, allCells.indexOf(movingEl), i);
       }
       previousColour = colourProcess(previousColour, pixels, allCells);
+    } else if (pattern == "symmetrical") {
+      let middlePoint = Math.floor(pixels / 2);
+      let allCells = Array.from(document.querySelectorAll(".pixelCell"));
+      let firstQuarter = allCells.filter(
+        (cell) =>
+          parseInt(cell.id.split(",")[0]) < middlePoint &&
+          parseInt(cell.id.split(",")[1]) < middlePoint
+      );
+      let shuffledFirstQuarter = arrayShuffle(firstQuarter);
+      previousColour = colourProcess(
+        previousColour,
+        pixels,
+        shuffledFirstQuarter
+      );
+      firstQuarter.forEach((cell) => {
+        let origId = cell.id;
+        let cellColour = cell.style.backgroundColor;
+        let firstCood = parseInt(origId.split(",")[0]);
+        let secondCood = parseInt(origId.split(",")[1]);
+        let rightCellId = firstCood + "," + (pixels - secondCood - 1);
+        let bottomCellId = pixels - firstCood - 1 + "," + secondCood;
+        let bottomRightCellId =
+          pixels - firstCood - 1 + "," + (pixels - secondCood - 1);
+        [rightCellId, bottomCellId, bottomRightCellId].forEach(
+          (cellId) =>
+            (document.querySelector(`[id="${cellId}"]`).style.backgroundColor =
+              cellColour)
+        );
+      });
     } else {
       let rows = Array.from(document.querySelectorAll(".pixelRow"));
       rows.forEach((row) => {
@@ -312,6 +347,30 @@ const PixelArt = () => {
                 </Radio>
                 <Radio colorScheme="green" value="spiral">
                   Spiral
+                </Radio>
+                <Radio colorScheme="orange" value="symmetrical">
+                  Symmetrical
+                </Radio>
+              </HStack>
+            </RadioGroup>
+            <FormLabel textAlign="center">Pixel Shape</FormLabel>
+            <RadioGroup
+              id="shape"
+              type="text"
+              m="auto"
+              width="40%"
+              value={shape}
+              opacity={0.6}
+              size="md"
+              pb="10px"
+              onChange={setShape}
+            >
+              <HStack spacing="24px" justify="center">
+                <Radio colorScheme="red" value="square">
+                  Square
+                </Radio>
+                <Radio colorScheme="blue" value="round">
+                  Round
                 </Radio>
               </HStack>
             </RadioGroup>
