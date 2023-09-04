@@ -6,3 +6,7 @@
   margin: auto;
   padding: 20px;
 }
+
+#pixelArt td.round {
+  border-radius: 30px;
+}
