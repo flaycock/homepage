@@ -25,7 +25,8 @@
 		"coverage",
 		"webpack.*.js",
 		"*.config.js",
-		"*.test.ts"
+		"*.test.ts",
+		"temp"
 	],
 	"ts-node": {
 		"compilerOptions": {
