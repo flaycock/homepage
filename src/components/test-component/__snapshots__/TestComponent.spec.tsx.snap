@@ -2,20 +2,19 @@
 
 exports[`TestComponent renders 1`] = `
 <div
+  class="sc-bRKDuR hXXjjt"
   data-test-id="test-component"
 >
   <h2
     class="chakra-heading css-eprwor"
   >
-    This is a Chakra-UI heading
+    This website is currently being rebuilt
   </h2>
-  (text && 
   <p
     class="css-0"
     data-test-id="test-component-text"
   >
     test
   </p>
-  )
 </div>
 `;
