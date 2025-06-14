@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TestComponent renders 1`] = `
+<div
+  data-test-id="test-component"
+>
+  <h2
+    class="chakra-heading css-eprwor"
+  >
+    This is a Chakra-UI heading
+  </h2>
+  (text && 
+  <p
+    class="css-0"
+    data-test-id="test-component-text"
+  >
+    test
+  </p>
+  )
+</div>
+`;
